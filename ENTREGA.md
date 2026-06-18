@@ -1,27 +1,30 @@
+# Entrega — OpenSpec Sandbox
+
 *Micro-tarea:* Crea un pagina web para formatear un json a formato TOON / Token-Oriented Object Notation
+
 *Pilar 1 — Herramienta:* Uso de herramientas Cursor para generar el trabajo, y claude para generar el contexto.
-por que son herramientas top y puedo generar agentes, y la configuracon es mas sencilla que  copilot y vscode.
+por que son herramientas top y puedo generar agentes, y la configuracon es mas sencilla que copilot y vscode.
 
-*Pilar 2 — Contexto:* Generar un web Next.js + TypeScript+html+css, con un boton para procesar, pego el json y al dar click en procesar cambia a tons
+*Pilar 2 — Contexto:* Generar un web Next.js + TypeScript+html+css, con un boton para procesar, pego el json y al dar click en procesar cambia a TOON. El input debe ser un array JSON de objetos planos; si hay numeros, null o strings sueltos, mostrar error inline sin crashear.
 
-Omito  colores, diseño especificco de la ventana y pruebas unitarias
- 
-*Pilar 3 — Prompt:* 
+Omito colores, diseño especificco de la ventana y pruebas unitarias
 
-# Prompt: JSON → TOON Converter — Next.js + TypeScript
+*Pilar 3 — Prompt:*
 
-## Task
+## Prompt: JSON → TOON Converter — Next.js + TypeScript
 
-Build a single-page Next.js 14 (App Router) app in TypeScript that lets the user paste a JSON array, click **Procesar**, and see it converted to **TOON (Token-Oriented Object Notation)** in a read-only output panel side-by-side.
+### Task
 
-## Tech
+Build a single-page Next.js 14 (App Router) app in TypeScript that lets the user paste a JSON array, click **Procesar**, and see it converted to **TOON (Token-Oriented Object Notation)** in a read-only output panel side-by-side. Before conversion, validate that the parsed payload is an array and that every element is a plain object (not `null`, a number, a string, or a nested array); reject invalid shapes with an inline error instead of calling `Object.entries` on non-objects.
+
+### Tech
 
 - Next.js 14, App Router, TypeScript strict
 - Plain CSS Modules (no Tailwind, no UI library)
 - Single page: `app/page.tsx` + `app/page.module.css`
 - Pure utility: `lib/convertToToon.ts`
 
-## TOON Format Rules
+### TOON Format Rules
 
 Given a JSON array of N objects:
 
@@ -38,7 +41,7 @@ Given a JSON array of N objects:
 4. **Field order:** preserve original JSON key order.
 5. **No trailing commas, no braces, no brackets** inside the body.
 
-## Behavior
+### Behavior
 
 1. Left panel: `<textarea>` — user pastes raw JSON array.
 2. **Procesar** button (centered, disabled when textarea is empty).
@@ -46,7 +49,7 @@ Given a JSON array of N objects:
 4. If JSON is invalid **or** the parsed array contains non-object elements (e.g. numbers, `null`, strings), show inline error below textarea (red text, no alert/modal).
 5. Output panel shows a **Copy** button (copies TOON text to clipboard).
 
-## File structure
+### File structure
 
 ```text
 app/
@@ -56,13 +59,13 @@ lib/
   convertToToon.ts
 ```
 
-## Example — JSON input
+### Example — JSON input
 
 ```json
 [{"AreaID":1,"Name":"Memo Test 2","IsActive":true,"CreatedBy":"posArea","ModifiedBy":"test.Area\/Post","CreatedUserID":1,"ModifiedUserID":27642,"CreatedDate":"2020-05-09T19:08:00","ModifiedDate":"2024-06-21T14:02:44.237"},{"AreaID":2,"Name":"Configuracion","IsActive":true,"CreatedBy":"posArea","CreatedUserID":1,"CreatedDate":"2020-05-09T19:08:00"},{"AreaID":3,"Name":"Operacion","IsActive":true,"CreatedBy":"posArea","CreatedUserID":1,"CreatedDate":"2020-05-09T23:16:28.697"}]
 ```
 
-## Example — expected TOON output
+### Example — expected TOON output
 
 ```text
 [3]:
@@ -89,7 +92,7 @@ lib/
     CreatedDate: "2020-05-09T23:16:28.697"
 ```
 
-## Key conversion logic (pseudocode for `convertToToon.ts`)
+### Key conversion logic (pseudocode for `convertToToon.ts`)
 
 ```typescript
 function formatValue(value: unknown): string | null
@@ -113,7 +116,9 @@ function convertToToon(json: unknown[]): string
   return lines.join("\n")
 ```
 
-## UI layout
+`page.tsx` must catch errors from `convertToToon` and show them inline (e.g. input `[1, null]`).
+
+### UI layout
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -127,34 +132,31 @@ function convertToToon(json: unknown[]): string
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## Constraints
+### Constraints
 
 - No `any` types — use `unknown` + type guards.
 - `convertToToon.ts` must be a pure function with no side effects.
 - Button disabled while textarea is empty.
 - No external dependencies beyond Next.js defaults.
 
+*Resultado:* Funciono a la 1 ejecucion
 
+*Mejoras:*
 
+- Agregar pruebas unitarias
+- Un mejor diseño
+- Un Validador de json
+- Un formateo de Json
 
-*Resultado:* 
-Funciono a la 1 ejecucion
- 
- Mejoras
- Agregar pruebas unitarias
- Un mejor diseño
- Un Validador de json
- Un formateo de Json 
- 
- 
- 
- 
 ## Entregable B
 
-## openspec --version
+### openspec --version
+
 - 1.4.1
 
-## Directorio
+### Directorio
+
+```text
 D:.
 │   ENTREGA.md
 │
@@ -213,8 +215,10 @@ D:.
     ├───changes
     │   └───archive
     └───specs
-	
-## 3 Observaciones
+```
+
+### 3 Observaciones
+
 1. Aún no entiendo dónde se configura qué tecnologías se usan para que OpenSpec pueda entender mejor mi desarrollo. En este caso estoy usando Next.js + TypeScript.
 2. No veo algo donde se use un grafo para documentar los archivos .md y poder visualizarlos en herramientas como Obsidian o Logseq.
 3. No veo uso de agentes.
