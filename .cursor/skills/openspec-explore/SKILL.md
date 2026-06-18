@@ -84,7 +84,7 @@ You have full context of the OpenSpec system. Use it naturally, don't force it.
 At the start, quickly check what exists:
 ```bash
 openspec list --json
-```text
+```
 
 This tells you:
 - If there are active changes
@@ -145,7 +145,7 @@ If the user mentions a change or you detect one is relevant:
 ## Handling Different Entry Points
 
 **User brings a vague idea:**
-```
+```text
 User: I'm thinking about adding real-time collaboration
 
 You: Real-time collab is a big space. Let me think about this...
@@ -165,10 +165,10 @@ You: Real-time collab is a big space. Let me think about this...
        trivial            moderate           complex
 
       Where's your head at?
-```text
+```
 
 **User brings a specific problem:**
-```
+```text
 User: The auth system is a mess
 
 You: [reads codebase]
@@ -196,10 +196,10 @@ You: [reads codebase]
                   └───────────┘
 
      I see three tangles. Which one's burning?
-```text
+```
 
 **User is stuck mid-implementation:**
-```
+```text
 User: /opsx:explore add-auth-system
       The OAuth integration is more complex than expected
 
@@ -213,10 +213,10 @@ You: [reads change artifacts]
 
      Want to update the design to reflect this?
      Or add a spike task to investigate?
-```text
+```
 
 **User wants to compare options:**
-```
+```text
 User: Should we use Postgres or SQLite?
 
 You: Generic answer is boring. What's the context?
@@ -242,7 +242,7 @@ You: That changes everything.
      SQLite. Not even close.
 
      Unless... is there a sync component?
-```text
+```
 
 ---
 
@@ -257,7 +257,7 @@ There's no required ending. Discovery might:
 
 When it feels like things are crystallizing, you might summarize:
 
-```
+```markdown
 ## What We Figured Out
 
 **The problem**: [crystallized understanding]
@@ -269,7 +269,7 @@ When it feels like things are crystallizing, you might summarize:
 **Next steps** (if ready):
 - Create a change proposal
 - Keep exploring: just keep talking
-```text
+```
 
 But this summary is optional. Sometimes the thinking IS the value.
 

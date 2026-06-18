@@ -32,7 +32,7 @@ When ready to implement, run /opsx:apply
 2. **Create the change directory**
    ```bash
    openspec new change "<name>"
-```text
+   ```
    This creates a scaffolded change in the planning home resolved by the CLI with `.openspec.yaml`.
 
 3. **Get the artifact build order**
@@ -54,7 +54,7 @@ When ready to implement, run /opsx:apply
       - Get instructions:
         ```bash
         openspec instructions <artifact-id> --change "<name>" --json
-```text
+        ```
       - The instructions JSON includes:
         - `context`: Project background (constraints for you - do NOT include in output)
         - `rules`: Artifact-specific rules (constraints for you - do NOT include in output)

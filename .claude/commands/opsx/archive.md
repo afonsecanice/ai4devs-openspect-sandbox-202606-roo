@@ -69,7 +69,7 @@ Archive a completed change in the experimental workflow.
    Create an `archive` directory under `planningHome.changesDir` if it doesn't exist:
    ```bash
    mkdir -p "<planningHome.changesDir>/archive"
-```text
+   ```
 
    Generate target name using current date: `YYYY-MM-DD-<change-name>`
 

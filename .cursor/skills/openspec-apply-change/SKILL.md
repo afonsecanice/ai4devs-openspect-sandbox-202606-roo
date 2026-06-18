@@ -27,7 +27,7 @@ Implement tasks from an OpenSpec change.
 2. **Check status to understand the schema**
    ```bash
    openspec status --change "<name>" --json
-```text
+   ```
    Parse the JSON to understand:
    - `schemaName`: The workflow being used (e.g., "spec-driven")
    - `planningHome`, `changeRoot`, and `actionContext`: planning scope and edit constraints
