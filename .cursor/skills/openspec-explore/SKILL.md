@@ -51,7 +51,7 @@ Depending on what the user brings, you might:
 - Recommend a path (if asked)
 
 **Visualize**
-```
+```text
 ┌─────────────────────────────────────────┐
 │     Use ASCII diagrams liberally        │
 ├─────────────────────────────────────────┤
@@ -84,7 +84,7 @@ You have full context of the OpenSpec system. Use it naturally, don't force it.
 At the start, quickly check what exists:
 ```bash
 openspec list --json
-```
+```text
 
 This tells you:
 - If there are active changes
@@ -165,7 +165,7 @@ You: Real-time collab is a big space. Let me think about this...
        trivial            moderate           complex
 
       Where's your head at?
-```
+```text
 
 **User brings a specific problem:**
 ```
@@ -196,7 +196,7 @@ You: [reads codebase]
                   └───────────┘
 
      I see three tangles. Which one's burning?
-```
+```text
 
 **User is stuck mid-implementation:**
 ```
@@ -213,7 +213,7 @@ You: [reads change artifacts]
 
      Want to update the design to reflect this?
      Or add a spike task to investigate?
-```
+```text
 
 **User wants to compare options:**
 ```
@@ -242,7 +242,7 @@ You: That changes everything.
      SQLite. Not even close.
 
      Unless... is there a sync component?
-```
+```text
 
 ---
 
@@ -269,7 +269,7 @@ When it feels like things are crystallizing, you might summarize:
 **Next steps** (if ready):
 - Create a change proposal
 - Keep exploring: just keep talking
-```
+```text
 
 But this summary is optional. Sometimes the thinking IS the value.
 

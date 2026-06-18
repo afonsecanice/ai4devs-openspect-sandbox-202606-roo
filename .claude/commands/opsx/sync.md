@@ -26,7 +26,7 @@ This is an **agent-driven** operation - you will read delta specs and directly e
    Run:
    ```bash
    openspec status --change "<name>" --json
-   ```
+```text
 
    If status reports `actionContext.mode: "workspace-planning"`, explain that workspace spec sync is not supported in this slice and STOP. Do not fall back to repo-local paths or edit linked repos.
 
@@ -119,7 +119,7 @@ Unlike programmatic merging, you can apply **partial updates**:
 
 **Output On Success**
 
-```
+```text
 ## Specs Synced: <change-name>
 
 Updated main specs:

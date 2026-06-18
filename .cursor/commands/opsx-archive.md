@@ -69,7 +69,7 @@ Archive a completed change in the experimental workflow.
    Create an `archive` directory under `planningHome.changesDir` if it doesn't exist:
    ```bash
    mkdir -p "<planningHome.changesDir>/archive"
-   ```
+```text
 
    Generate target name using current date: `YYYY-MM-DD-<change-name>`
 
@@ -92,7 +92,7 @@ Archive a completed change in the experimental workflow.
 
 **Output On Success**
 
-```
+```text
 ## Archive Complete
 
 **Change:** <change-name>
@@ -105,7 +105,7 @@ All artifacts complete. All tasks complete.
 
 **Output On Success (No Delta Specs)**
 
-```
+```text
 ## Archive Complete
 
 **Change:** <change-name>
@@ -118,7 +118,7 @@ All artifacts complete. All tasks complete.
 
 **Output On Success With Warnings**
 
-```
+```text
 ## Archive Complete (with warnings)
 
 **Change:** <change-name>
@@ -136,7 +136,7 @@ Review the archive if this was not intentional.
 
 **Output On Error (Archive Exists)**
 
-```
+```text
 ## Archive Failed
 
 **Change:** <change-name>

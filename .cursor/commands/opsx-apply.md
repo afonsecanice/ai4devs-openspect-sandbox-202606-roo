@@ -23,7 +23,7 @@ Implement tasks from an OpenSpec change.
 2. **Check status to understand the schema**
    ```bash
    openspec status --change "<name>" --json
-   ```
+```text
    Parse the JSON to understand:
    - `schemaName`: The workflow being used (e.g., "spec-driven")
    - `planningHome`, `changeRoot`, and `actionContext`: planning scope and edit constraints
@@ -88,7 +88,7 @@ Implement tasks from an OpenSpec change.
 
 **Output During Implementation**
 
-```
+```text
 ## Implementing: <change-name> (schema: <schema-name>)
 
 Working on task 3/7: <task description>
@@ -102,7 +102,7 @@ Working on task 4/7: <task description>
 
 **Output On Completion**
 
-```
+```text
 ## Implementation Complete
 
 **Change:** <change-name>
@@ -119,7 +119,7 @@ All tasks complete! You can archive this change with `/opsx:archive`.
 
 **Output On Pause (Issue Encountered)**
 
-```
+```text
 ## Implementation Paused
 
 **Change:** <change-name>
@@ -149,7 +149,7 @@ What would you like to do?
 
 **Fluid Workflow Integration**
 
-This skill supports the "actions on a change" model:
+This command supports the "actions on a change" model:
 
 - **Can be invoked anytime**: Before all artifacts are done (if tasks exist), after partial implementation, interleaved with other actions
 - **Allows artifact updates**: If implementation reveals design issues, suggest updating artifacts - not phase-locked, work fluidly
