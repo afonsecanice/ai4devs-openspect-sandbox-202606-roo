@@ -1,226 +1,149 @@
-# Entrega — OpenSpec Sandbox
+# Ejercicio previo — Instalar SDD en un proyecto limpio
 
-*Micro-tarea:* Crea un pagina web para formatear un json a formato TOON / Token-Oriented Object Notation
+**Alumno:** Ariel Fonseca Sandoval (`afonsecanice`)  
+**Repositorio:** [afonsecanice/ai4devs-openspect-sandbox-202606-roo](https://github.com/afonsecanice/ai4devs-openspect-sandbox-202606-roo)  
+**Implementación Parte A (local):** `D:\LIDR\Modulo2\ParteA`  
+**Sandbox OpenSpec (local):** `D:\LIDR\Modulo2\ParteB\test-app\openspec-sandbox`
 
-*Pilar 1 — Herramienta:* Uso de herramientas Cursor para generar el trabajo, y claude para generar el contexto.
-por que son herramientas top y puedo generar agentes, y la configuracon es mas sencilla que copilot y vscode.
+---
 
-*Pilar 2 — Contexto:* Generar un web Next.js + TypeScript+html+css, con un boton para procesar, pego el json y al dar click en procesar cambia a TOON. El input debe ser un array JSON de objetos planos; si hay numeros, null o strings sueltos, mostrar error inline sin crashear.
+## Parte A — Repaso de los 3 Pilares
 
-Omito colores, diseño especificco de la ventana y pruebas unitarias
+*Micro-tarea:* Crear una página web para convertir un JSON array a formato TOON (Token-Oriented Object Notation).
 
-*Pilar 3 — Prompt:*
+*Pilar 1 — Herramienta:* ¿Cuál eliges?
 
-## Prompt: JSON → TOON Converter — Next.js + TypeScript
+Cursor (implementación) + Claude (diseño del prompt y contexto).
 
-### Task
+¿Por qué esta y no otra?
 
-Build a single-page Next.js 14 (App Router) app in TypeScript that lets the user paste a JSON array, click **Procesar**, and see it converted to **TOON (Token-Oriented Object Notation)** in a read-only output panel side-by-side. Before conversion, validate that the parsed payload is an array and that every element is a plain object (not `null`, a number, a string, or a nested array); reject invalid shapes with an inline error instead of calling `Object.entries` on non-objects.
+Cursor permite iterar rápido sobre código Next.js/TypeScript, configurar agentes y skills con poca fricción. Claude ayuda a estructurar prompts largos con reglas de negocio (formato TOON). No usé Copilot + VS Code porque la configuración de agentes y el flujo spec→código me resultó más directo en Cursor para esta micro-tarea.
 
-### Tech
+*Pilar 2 — Contexto:* ¿Qué información estás aportando?
 
-- Next.js 14, App Router, TypeScript strict
-- Plain CSS Modules (no Tailwind, no UI library)
-- Single page: `app/page.tsx` + `app/page.module.css`
-- Pure utility: `lib/convertToToon.ts`
+- Stack: Next.js 14, App Router, TypeScript strict, CSS Modules.
+- Archivos: `app/page.tsx`, `app/page.module.css`, `lib/convertToToon.ts`.
+- Comportamiento: textarea JSON, botón **Procesar**, panel TOON read-only, botón **Copy**.
+- Reglas TOON: header `[N]:`, serialización de valores, orden de campos, omisión de `null`.
+- Validación: el input debe ser un array JSON; cada elemento debe ser un objeto plano; errores inline en rojo.
+- Ejemplos de entrada JSON y salida TOON esperada.
 
-### TOON Format Rules
+¿Hay algo del contexto que has decidido omitir conscientemente?
 
-Given a JSON array of N objects:
+Sí: diseño visual detallado (colores, branding), pruebas unitarias, formateo previo del JSON pegado y despliegue a producción.
 
-1. **Header:** `[N]:` — the count of items, followed by colon.
-2. **Each object** becomes a block of lines:
-   - First field: `  - key: value` (2 spaces + dash + space)
-   - Remaining fields: `    key: value` (4 spaces)
-3. **Value serialization:**
-   - `null` or missing field → **omit the line entirely**
-   - `boolean` → lowercase literal: `true` / `false`
-   - `number` → as-is, no quotes
-   - `string` containing `:` → wrap in double quotes: `"2020-05-09T19:08:00"`
-   - `string` without `:` → no quotes: `posArea`, `Memo Test 2`, `test.Area/Post`
-4. **Field order:** preserve original JSON key order.
-5. **No trailing commas, no braces, no brackets** inside the body.
+*Pilar 3 — Prompt:* ¿Cómo lo estructuras?
 
-### Behavior
+Por secciones: Task, Tech, TOON Format Rules, Behavior, File structure, ejemplos input/output, pseudocódigo de `convertToToon.ts`, layout UI y constraints. Salida esperada: archivos listos para copiar en un proyecto Next.js.
 
-1. Left panel: `<textarea>` — user pastes raw JSON array.
-2. **Procesar** button (centered, disabled when textarea is empty).
-3. Right panel: read-only `<pre>` — shows TOON output.
-4. If JSON is invalid **or** the parsed array contains non-object elements (e.g. numbers, `null`, strings), show inline error below textarea (red text, no alert/modal).
-5. Output panel shows a **Copy** button (copies TOON text to clipboard).
+**Prompt final:** (archivo completo en `D:\LIDR\Modulo2\ParteA\json-to-tons-prompt.md`)
 
-### File structure
+> **Task:** Build a single-page Next.js 14 (App Router) app in TypeScript that lets the user paste a JSON array, click **Procesar**, and see it converted to **TOON** side-by-side. Validate array + plain objects before conversion; reject invalid shapes with inline error.
+>
+> **Tech:** Next.js 14, App Router, TypeScript strict, CSS Modules, `app/page.tsx`, `app/page.module.css`, `lib/convertToToon.ts`.
+>
+> **Behavior:** textarea JSON, botón Procesar (disabled si vacío), panel TOON read-only, botón Copy, errores inline en rojo.
+>
+> **Constraints:** sin `any`, `convertToToon` puro, sin dependencias extra.
+
+*Resultado:* ¿Funcionó a la primera o tuviste que iterar?
+
+Funcionó a la primera ejecución. La app corre en `D:\LIDR\Modulo2\ParteA` con validación de array y objetos planos en `page.tsx`.
+
+Una mejora que harías si volvieras a hacerlo:
+
+- Agregar pruebas unitarias para `convertToToon.ts`.
+- Mejorar el diseño visual.
+- Añadir validador y formateador de JSON antes de convertir.
+
+---
+
+## Parte B — Instalación de OpenSpec en sandbox
+
+### Prerrequisitos verificados
+
+```bash
+node --version
+```
 
 ```text
-app/
-  page.tsx
-  page.module.css
-lib/
-  convertToToon.ts
+v22.16.0
 ```
 
-### Example — JSON input
+(Node ≥ v20.19.0 — requisito cumplido.)
 
-```json
-[{"AreaID":1,"Name":"Memo Test 2","IsActive":true,"CreatedBy":"posArea","ModifiedBy":"test.Area\/Post","CreatedUserID":1,"ModifiedUserID":27642,"CreatedDate":"2020-05-09T19:08:00","ModifiedDate":"2024-06-21T14:02:44.237"},{"AreaID":2,"Name":"Configuracion","IsActive":true,"CreatedBy":"posArea","CreatedUserID":1,"CreatedDate":"2020-05-09T19:08:00"},{"AreaID":3,"Name":"Operacion","IsActive":true,"CreatedBy":"posArea","CreatedUserID":1,"CreatedDate":"2020-05-09T23:16:28.697"}]
+### Paso 2 — CLI instalada
+
+```bash
+npm install -g @fission-ai/openspec@latest
+openspec --version
 ```
-
-### Example — expected TOON output
 
 ```text
-[3]:
-  - AreaID: 1
-    Name: Memo Test 2
-    IsActive: true
-    CreatedBy: posArea
-    ModifiedBy: test.Area/Post
-    CreatedUserID: 1
-    ModifiedUserID: 27642
-    CreatedDate: "2020-05-09T19:08:00"
-    ModifiedDate: "2024-06-21T14:02:44.237"
-  - AreaID: 2
-    Name: Configuracion
-    IsActive: true
-    CreatedBy: posArea
-    CreatedUserID: 1
-    CreatedDate: "2020-05-09T19:08:00"
-  - AreaID: 3
-    Name: Operacion
-    IsActive: true
-    CreatedBy: posArea
-    CreatedUserID: 1
-    CreatedDate: "2020-05-09T23:16:28.697"
+1.4.1
 ```
 
-### Key conversion logic (pseudocode for `convertToToon.ts`)
+### Paso 3 — Inicialización en sandbox
 
-```typescript
-function formatValue(value: unknown): string | null
-  if value === null or value === undefined → return null   // omit line
-  if typeof boolean → return value.toString()             // "true"/"false"
-  if typeof number  → return value.toString()
-  if typeof string  → return value.includes(":") ? `"${value}"` : value
+Ejecutado `openspec init` en `D:\LIDR\Modulo2\ParteB\test-app\openspec-sandbox`.
 
-function convertToToon(json: unknown[]): string
-  for each obj in json
-    if typeof obj !== "object" or obj === null or Array.isArray(obj) →
-      throw new Error("Array elements must be plain objects")
-  lines = [`[${json.length}]:`]
-  for each obj in json
-    entries = Object.entries(obj).filter(([,v]) => v !== null && v !== undefined)
-    entries.forEach(([key, val], i) =>
-      prefix = i === 0 ? "  - " : "    "
-      formatted = formatValue(val)
-      if formatted !== null → lines.push(`${prefix}${key}: ${formatted}`)
-    )
-  return lines.join("\n")
-```
+- Asistente elegido: **Cursor** (skills en `.cursor/`).
+- También generó `.claude/` (defaults del init).
+- Valores por defecto aceptados en el resto de prompts.
 
-`page.tsx` must catch errors from `convertToToon` and show them inline (e.g. input `[1, null]`).
+### Evidencia — estructura del proyecto (`ls`)
 
-### UI layout
+Raíz del sandbox:
 
 ```text
-┌──────────────────────────────────────────────────────────────┐
-│  JSON Input            [ Procesar ]       TOON Output  [Copy]│
-│  ┌─────────────────┐                   ┌──────────────────┐  │
-│  │  <textarea>     │                   │  <pre>           │  │
-│  │                 │                   │  [3]:            │  │
-│  └─────────────────┘                   │    - AreaID: 1   │  │
-│  ← error if invalid JSON               │    ...           │  │
-│                                        └──────────────────┘  │
-└──────────────────────────────────────────────────────────────┘
+D:\LIDR\Modulo2\ParteB\test-app\openspec-sandbox
+├── .claude/
+├── .cursor/
+├── openspec/
+└── ENTREGA.md
 ```
 
-### Constraints
-
-- No `any` types — use `unknown` + type guards.
-- `convertToToon.ts` must be a pure function with no side effects.
-- Button disabled while textarea is empty.
-- No external dependencies beyond Next.js defaults.
-
-*Resultado:* Funciono a la 1 ejecucion
-
-*Mejoras:*
-
-- Agregar pruebas unitarias
-- Un mejor diseño
-- Un Validador de json
-- Un formateo de Json
-
-## Entregable B
-
-### openspec --version
-
-- 1.4.1
-
-### Directorio
+Árbol interno de `openspec/`:
 
 ```text
-D:.
-│   ENTREGA.md
-│
-├───.claude
-│   ├───commands
-│   │   └───opsx
-│   │           apply.md
-│   │           archive.md
-│   │           explore.md
-│   │           propose.md
-│   │           sync.md
-│   │
-│   └───skills
-│       ├───openspec-apply-change
-│       │       SKILL.md
-│       │
-│       ├───openspec-archive-change
-│       │       SKILL.md
-│       │
-│       ├───openspec-explore
-│       │       SKILL.md
-│       │
-│       ├───openspec-propose
-│       │       SKILL.md
-│       │
-│       └───openspec-sync-specs
-│               SKILL.md
-│
-├───.cursor
-│   ├───commands
-│   │       opsx-apply.md
-│   │       opsx-archive.md
-│   │       opsx-explore.md
-│   │       opsx-propose.md
-│   │       opsx-sync.md
-│   │
-│   └───skills
-│       ├───openspec-apply-change
-│       │       SKILL.md
-│       │
-│       ├───openspec-archive-change
-│       │       SKILL.md
-│       │
-│       ├───openspec-explore
-│       │       SKILL.md
-│       │
-│       ├───openspec-propose
-│       │       SKILL.md
-│       │
-│       └───openspec-sync-specs
-│               SKILL.md
-│
-└───openspec
-    │   config.yaml
-    │
-    ├───changes
-    │   └───archive
-    └───specs
+openspec/
+├── config.yaml
+├── changes/
+│   └── archive/
+└── specs/
 ```
 
-### 3 Observaciones
+Estructura commiteada en este repositorio (fork):
+
+```text
+.
+├── .claude/
+│   ├── commands/opsx/     (apply, archive, explore, propose, sync)
+│   └── skills/            (openspec-*)
+├── .cursor/
+│   ├── commands/          (opsx-*)
+│   └── skills/            (openspec-*)
+├── openspec/
+│   ├── config.yaml
+│   ├── changes/archive/
+│   └── specs/
+├── ENTREGA.md
+└── README.md
+```
+
+### Paso 4 — Exploración guiada (resumen)
+
+- **Constitución del proyecto:** en OpenSpec 1.4.1 el archivo principal es `openspec/config.yaml` (no se generó `openspec/project.md` en esta versión).
+- **Propuestas:** `openspec/changes/` (activas) y `openspec/changes/archive/` (archivadas).
+- **Specs:** `openspec/specs/`.
+- **Workflow OPSX:** propose → apply → archive, reflejado en comandos/skills `opsx-propose`, `opsx-apply`, `opsx-archive`, `opsx-explore`, `opsx-sync`.
+
+---
+
+## Observaciones de la exploración OpenSpec
 
 1. Aún no entiendo dónde se configura qué tecnologías se usan para que OpenSpec pueda entender mejor mi desarrollo. En este caso estoy usando Next.js + TypeScript.
-2. No veo algo donde se use un grafo para documentar los archivos .md y poder visualizarlos en herramientas como Obsidian o Logseq.
+2. No veo algo donde se use un grafo para documentar los archivos `.md` y poder visualizarlos en herramientas como Obsidian o Logseq.
 3. No veo uso de agentes.
-4. Me gustan los comandos. Son básicos, pero potentes: aplicar, archivar, explorar , proponer y sincronizar.
+4. Me gustan los comandos. Son básicos, pero potentes: aplicar, archivar, explorar, proponer y sincronizar.
 5. No veo algo de validación en los comandos (validar la tarea).
