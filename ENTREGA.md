@@ -43,12 +43,12 @@ Given a JSON array of N objects:
 1. Left panel: `<textarea>` — user pastes raw JSON array.
 2. **Procesar** button (centered, disabled when textarea is empty).
 3. Right panel: read-only `<pre>` — shows TOON output.
-4. If JSON is invalid, show inline error below textarea (red text, no alert/modal).
+4. If JSON is invalid **or** the parsed array contains non-object elements (e.g. numbers, `null`, strings), show inline error below textarea (red text, no alert/modal).
 5. Output panel shows a **Copy** button (copies TOON text to clipboard).
 
 ## File structure
 
-```
+```text
 app/
   page.tsx
   page.module.css
@@ -64,7 +64,7 @@ lib/
 
 ## Example — expected TOON output
 
-```
+```text
 [3]:
   - AreaID: 1
     Name: Memo Test 2
@@ -91,7 +91,7 @@ lib/
 
 ## Key conversion logic (pseudocode for `convertToToon.ts`)
 
-```
+```typescript
 function formatValue(value: unknown): string | null
   if value === null or value === undefined → return null   // omit line
   if typeof boolean → return value.toString()             // "true"/"false"
@@ -99,6 +99,9 @@ function formatValue(value: unknown): string | null
   if typeof string  → return value.includes(":") ? `"${value}"` : value
 
 function convertToToon(json: unknown[]): string
+  for each obj in json
+    if typeof obj !== "object" or obj === null or Array.isArray(obj) →
+      throw new Error("Array elements must be plain objects")
   lines = [`[${json.length}]:`]
   for each obj in json
     entries = Object.entries(obj).filter(([,v]) => v !== null && v !== undefined)
@@ -112,7 +115,7 @@ function convertToToon(json: unknown[]): string
 
 ## UI layout
 
-```
+```text
 ┌──────────────────────────────────────────────────────────────┐
 │  JSON Input            [ Procesar ]       TOON Output  [Copy]│
 │  ┌─────────────────┐                   ┌──────────────────┐  │
@@ -146,8 +149,9 @@ Funciono a la 1 ejecucion
  
  
  
- ## Entregable B
- ## openspec --version
+## Entregable B
+
+## openspec --version
 - 1.4.1
 
 ## Directorio
@@ -210,7 +214,7 @@ D:.
     │   └───archive
     └───specs
 	
-##  3 Observaciones
+## 3 Observaciones
 1. Aún no entiendo dónde se configura qué tecnologías se usan para que OpenSpec pueda entender mejor mi desarrollo. En este caso estoy usando Next.js + TypeScript.
 2. No veo algo donde se use un grafo para documentar los archivos .md y poder visualizarlos en herramientas como Obsidian o Logseq.
 3. No veo uso de agentes.
